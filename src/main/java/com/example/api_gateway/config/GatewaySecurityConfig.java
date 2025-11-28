@@ -26,11 +26,18 @@ public class GatewaySecurityConfig {
 
         http.csrf(ServerHttpSecurity.CsrfSpec::disable);
 
+//        http.authorizeExchange(exchange -> exchange
+//                .pathMatchers("/actuator/**").permitAll()
+//                .pathMatchers("/api/v1/users/login", "/api/v1/users/register", "/auth/**").permitAll()
+//                .anyExchange().authenticated()
+//        );
         http.authorizeExchange(exchange -> exchange
                 .pathMatchers("/actuator/**").permitAll()
+                .pathMatchers("/api/v1/payments/**").permitAll()   // ← FIXED
                 .pathMatchers("/api/v1/users/login", "/api/v1/users/register", "/auth/**").permitAll()
                 .anyExchange().authenticated()
         );
+
 
         http.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt.jwtDecoder(jwtDecoder()))
